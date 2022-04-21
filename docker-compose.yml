@@ -1,0 +1,35 @@
+version: '3.5'
+
+x-api: &api
+  build:
+    context: .
+    dockerfile: api.Dockerfile
+  volumes:
+    - .:/app
+  environment:
+    AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-fakeMyKeyId}
+    AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-fakeSecretAccessKey}
+
+
+services:
+  api:
+    <<: *api
+    ports:
+      - '7000:7000'
+    command: ['yarn', 'dev']
+  dynamodb-local:
+    image: amazon/dynamodb-local:latest
+    ports:
+      - '8000:8000'
+  dynamodb-admin:
+    image: aaronshaf/dynamodb-admin:latest
+    tty: true
+    environment:
+      DYNAMO_ENDPOINT: http://dynamodb-local:8000
+      AWS_REGION: "ap-northeast-1"
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-fakeMyKeyId}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-fakeSecretAccessKey}
+    ports:
+      - '8001:8001'
+    depends_on:
+      - dynamodb-local

@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@src/*": ["src/*"]
+    },
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "emitDecoratorMetadata": true,
+    "declaration": true,
+    "target": "ES2021",
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["ES2021"],
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts"]
+}
